@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -28,6 +28,7 @@ namespace RealTimeFaceRecognitionExample
 
         public GameObject[] GUI_ID;  // GUI ID Array
         public GameObject[] sphere;
+        //public float[] GUI_Scale;
         int c_identity = -1;  //Temp variable to cap the identity to index values.
         //public GameObject sphere_ref;
         public float speed = 1f;
@@ -137,7 +138,7 @@ namespace RealTimeFaceRecognitionExample
         // conditions, and if you use a different Face Recognition algorithm.
         // Note that a higher threshold value means accepting more faces as known people,
         // whereas lower values mean more faces will be classified as "unknown".
-        public float UNKNOWN_PERSON_THRESHOLD = 0.7f;
+        public float UNKNOWN_PERSON_THRESHOLD = 0.5f;
 
 
         // Cascade Classifier file, used for Face Detection.
@@ -346,15 +347,17 @@ namespace RealTimeFaceRecognitionExample
             {
                 case 2:
                     GUI_ID[2].transform.position = Vector3.MoveTowards(GUI_ID[2].transform.position, sphere[2].transform.position, Time.deltaTime * speed);
+                    GUI_ID[2].transform.localScale = Vector3.Lerp(GUI_ID[2].transform.localScale, sphere[2].transform.localScale, Time.deltaTime * speed);
                     break;
                 case 1:
                     GUI_ID[1].transform.position = Vector3.MoveTowards(GUI_ID[1].transform.position, sphere[1].transform.position, Time.deltaTime * speed);
+                    GUI_ID[1].transform.localScale = Vector3.Lerp(GUI_ID[2].transform.localScale, sphere[1].transform.localScale, Time.deltaTime * speed);
                     break;
                 case 0:
                     GUI_ID[0].transform.position = Vector3.MoveTowards(GUI_ID[0].transform.position, sphere[0].transform.position, Time.deltaTime * speed);
+                    GUI_ID[0].transform.localScale = Vector3.Lerp(GUI_ID[0].transform.localScale, sphere[0].transform.localScale, Time.deltaTime * speed);
                     break;
                 default:
-                    print("Unknown");
                     break;
             }
 
@@ -680,7 +683,7 @@ namespace RealTimeFaceRecognitionExample
             Rect boundingRect = new Rect ((int)coord.x, (int)(coord.y - textSize.height), (int)textSize.width, (int)(baseline [0] + textSize.height));
 
             // Draw anti-aliased text.
-            Imgproc.putText (img, text, coord, fontFace, fontScale, color, thickness, Imgproc.LINE_AA, false);
+            //Imgproc.putText (img, text, coord, fontFace, fontScale, color, thickness, Imgproc.LINE_AA, false);
 
             // Let the user know how big their text is, in case they want to arrange things.
             return boundingRect;
@@ -775,7 +778,7 @@ namespace RealTimeFaceRecognitionExample
 
                 // Draw an anti-aliased rectangle around the detected face.
                 if (faceRect.width > 0) {
-                    Imgproc.rectangle (displayedFrame, faceRect.tl (), faceRect.br (), YELLOW, 2, Imgproc.LINE_AA, 0);
+                    Imgproc.rectangle (displayedFrame, faceRect.tl (), faceRect.br (), LIGHT_BLUE, 2, Imgproc.LINE_AA, 0);
                     
                     // Draw light-blue anti-aliased circles for the 2 eyes.
                     Scalar eyeColor = LIGHT_BLUE;
@@ -786,17 +789,23 @@ namespace RealTimeFaceRecognitionExample
                         Imgproc.circle (displayedFrame, new Point (faceRect.x + rightEye.x, faceRect.y + rightEye.y), 6, eyeColor, 1, Imgproc.LINE_AA, 0);
                     }
 
-                    Debug.Log("c_ID " + c_identity);
+                    //Debug.Log("c_ID " + c_identity);
                     switch (c_identity)
                     {
                         case 2:
                             sphere[2].transform.position = new Vector3(faceRect.x - 232, -faceRect.y + 300, sphere[2].transform.position.z);  // Position of the face/eyes relative to world coordinates
+                            sphere[2].transform.localScale = new Vector3((0.0015f * (1000.0f - (float)faceRect.x) + 0.2333f), (0.0018f * (1000.0f - (float)faceRect.x) + 0.2333f)-0.1f, 0);  // Position of the face/eyes relative to world coordinates
+                            Debug.Log("Scale : " + (0.0015f * (1000.0f - (float)faceRect.x) + 0.2333f));
                             break;
                         case 1:
                             sphere[1].transform.position = new Vector3(faceRect.x - 232, -faceRect.y + 300, sphere[1].transform.position.z);  // Position of the face/eyes relative to world coordinates
+                            sphere[1].transform.localScale = new Vector3((0.0015f * (1000.0f - (float)faceRect.x) + 0.2333f), (0.0018f * (1000.0f - (float)faceRect.x) + 0.2333f) - 0.1f, 0);  // Position of the face/eyes relative to world coordinates
+                            Debug.Log("Scale : " + (0.0015f * (1000.0f - (float)faceRect.x) + 0.2333f));
                             break;
                         case 0:
                             sphere[0].transform.position = new Vector3(faceRect.x - 232, -faceRect.y + 300, sphere[0].transform.position.z);  // Position of the face/eyes relative to world coordinates
+                            sphere[0].transform.localScale = new Vector3((0.0015f * (1000.0f - (float)faceRect.x) + 0.2333f), (0.0018f * (1000.0f - (float)faceRect.x) + 0.2333f) - 0.1f, 0);  // Position of the face/eyes relative to world coordinates
+                            Debug.Log("Scale : " + (0.0015f * (1000.0f - (float)faceRect.x) + 0.2333f));
                             break;
                         default:
                             print("Unknown");
