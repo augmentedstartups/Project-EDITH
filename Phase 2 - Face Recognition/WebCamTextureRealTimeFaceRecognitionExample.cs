@@ -1,3 +1,7 @@
+// Phase 2 - Project E.D.I.T.H. Face Recognition
+// Check the full Project E.D.I.T.H. Course Here http://bit.ly/UltimateAI50Webinar
+// Modified by Ritesh Kanjee | Augmented Startups 
+// Date: 18 October 2019
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -27,9 +31,9 @@ namespace RealTimeFaceRecognitionExample
     {
 
         public GameObject[] GUI_ID;  // GUI ID Array
-        public GameObject[] sphere;
-        //public float[] GUI_Scale;
-        int c_identity = -1;  //Temp variable to cap the identity to index values.
+        public GameObject[] sphere;  // Used for reference between CV space and Unity World Space
+        
+        int c_identity = -1;        //Temp variable to cap the identity to index values.
         //public GameObject sphere_ref;
         public float speed = 1f;
         private Vector3 destination;
@@ -343,11 +347,11 @@ namespace RealTimeFaceRecognitionExample
                 }
             }
                        
-            switch (c_identity)
+            switch (c_identity) // Smoothly transform the position and scale of the Identifier to the pose of the recognized face. 
             {
                 case 2:
                     GUI_ID[2].transform.position = Vector3.MoveTowards(GUI_ID[2].transform.position, sphere[2].transform.position, Time.deltaTime * speed);
-                    GUI_ID[2].transform.localScale = Vector3.Lerp(GUI_ID[2].transform.localScale, sphere[2].transform.localScale, Time.deltaTime * speed);
+                    GUI_ID[2].transform.localScale = Vector3.Lerp(GUI_ID[2].transform.localScale, sphere[2].transform.localScale, Time.deltaTime * speed); 
                     break;
                 case 1:
                     GUI_ID[1].transform.position = Vector3.MoveTowards(GUI_ID[1].transform.position, sphere[1].transform.position, Time.deltaTime * speed);
@@ -789,30 +793,8 @@ namespace RealTimeFaceRecognitionExample
                         Imgproc.circle (displayedFrame, new Point (faceRect.x + rightEye.x, faceRect.y + rightEye.y), 6, eyeColor, 1, Imgproc.LINE_AA, 0);
                     }
 
-                    //Debug.Log("c_ID " + c_identity);
-                    switch (c_identity)
-                    {
-                        case 2:
-                            sphere[2].transform.position = new Vector3(faceRect.x - 232, -faceRect.y + 300, sphere[2].transform.position.z);  // Position of the face/eyes relative to world coordinates
-                            sphere[2].transform.localScale = new Vector3((0.0015f * (1000.0f - (float)faceRect.x) + 0.2333f), (0.0018f * (1000.0f - (float)faceRect.x) + 0.2333f)-0.1f, 0);  // Position of the face/eyes relative to world coordinates
-                            Debug.Log("Scale : " + (0.0015f * (1000.0f - (float)faceRect.x) + 0.2333f));
-                            break;
-                        case 1:
-                            sphere[1].transform.position = new Vector3(faceRect.x - 232, -faceRect.y + 300, sphere[1].transform.position.z);  // Position of the face/eyes relative to world coordinates
-                            sphere[1].transform.localScale = new Vector3((0.0015f * (1000.0f - (float)faceRect.x) + 0.2333f), (0.0018f * (1000.0f - (float)faceRect.x) + 0.2333f) - 0.1f, 0);  // Position of the face/eyes relative to world coordinates
-                            Debug.Log("Scale : " + (0.0015f * (1000.0f - (float)faceRect.x) + 0.2333f));
-                            break;
-                        case 0:
-                            sphere[0].transform.position = new Vector3(faceRect.x - 232, -faceRect.y + 300, sphere[0].transform.position.z);  // Position of the face/eyes relative to world coordinates
-                            sphere[0].transform.localScale = new Vector3((0.0015f * (1000.0f - (float)faceRect.x) + 0.2333f), (0.0018f * (1000.0f - (float)faceRect.x) + 0.2333f) - 0.1f, 0);  // Position of the face/eyes relative to world coordinates
-                            Debug.Log("Scale : " + (0.0015f * (1000.0f - (float)faceRect.x) + 0.2333f));
-                            break;
-                        default:
-                            print("Unknown");
-                            break;
-                    }
-
-                    //Debug.Log("Eye Location "+ sphere.transform.position + " --- Reference Location " + sphere_ref.transform.position+ " --- Diff--- " + (sphere.transform.position - sphere_ref.transform.position));
+               
+                    
                     
                 }
 
@@ -932,6 +914,28 @@ namespace RealTimeFaceRecognitionExample
 
                             outputStr = identity.ToString ();
                             prev_identity = identity;
+
+                            switch (c_identity)  // Smoohtly move the GUI to the position of reference sphere (destination).
+                            {
+                                case 2:
+                                    sphere[2].transform.position = new Vector3(faceRect.x - 232, -faceRect.y + 300, sphere[2].transform.position.z);  // Position of the face/eyes relative to world coordinates
+                                    sphere[2].transform.localScale = new Vector3((0.0015f * (1000.0f - (float)faceRect.x) + 0.2333f), (0.0018f * (1000.0f - (float)faceRect.x) + 0.2333f) - 0.1f, 0);  // Position of the face/eyes relative to world coordinates
+                                    Debug.Log("Scale : " + (0.0015f * (1000.0f - (float)faceRect.x) + 0.2333f));
+                                    break;
+                                case 1:
+                                    sphere[1].transform.position = new Vector3(faceRect.x - 232, -faceRect.y + 300, sphere[1].transform.position.z);  // Position of the face/eyes relative to world coordinates
+                                    sphere[1].transform.localScale = new Vector3((0.0015f * (1000.0f - (float)faceRect.x) + 0.2333f), (0.0018f * (1000.0f - (float)faceRect.x) + 0.2333f) - 0.1f, 0);  // Position of the face/eyes relative to world coordinates
+                                    Debug.Log("Scale : " + (0.0015f * (1000.0f - (float)faceRect.x) + 0.2333f));
+                                    break;
+                                case 0:
+                                    sphere[0].transform.position = new Vector3(faceRect.x - 232, -faceRect.y + 300, sphere[0].transform.position.z);  // Position of the face/eyes relative to world coordinates
+                                    sphere[0].transform.localScale = new Vector3((0.0015f * (1000.0f - (float)faceRect.x) + 0.2333f), (0.0018f * (1000.0f - (float)faceRect.x) + 0.2333f) - 0.1f, 0);  // Position of the face/eyes relative to world coordinates
+                                    Debug.Log("Scale : " + (0.0015f * (1000.0f - (float)faceRect.x) + 0.2333f));
+                                    break;
+                                default:
+                                    print("Unknown");
+                                    break;
+                            }
                         } else {
                             // Since the confidence is low, assume it is an unknown person.
                             outputStr = "Unknown";
