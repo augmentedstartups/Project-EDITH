@@ -59,7 +59,7 @@ public class MainScript : MonoBehaviour {
 		RestClient.DefaultRequestParams["param3"] = "My other param";
 
 		currentRequest = new RequestHelper {
-			Uri = "https://maker.ifttt.com/trigger/trigger1/with/key/b3bDyzBPeANkAT0iy3QU_Q",
+			Uri = "https://maker.ifttt.com/trigger/trigger1/with/key/[INSERT YOUR API URL HERE]",
 
             Params = new Dictionary<string, string> {
 				{ "param1", "value 1" },
@@ -93,7 +93,7 @@ public class MainScript : MonoBehaviour {
 
         currentRequest = new RequestHelper
         {
-            Uri = "https://maker.ifttt.com/trigger/heateron/with/key/b3bDyzBPeANkAT0iy3QU_Q",
+            Uri = "https://maker.ifttt.com/trigger/heateron/with/key/[INSERT YOUR API URL HERE]",
 
             Params = new Dictionary<string, string> {
                 { "param1", "value 1" },
@@ -128,7 +128,7 @@ public class MainScript : MonoBehaviour {
 
         currentRequest = new RequestHelper
         {
-            Uri = "https://maker.ifttt.com/trigger/heateroff/with/key/b3bDyzBPeANkAT0iy3QU_Q",
+            Uri = "https://maker.ifttt.com/trigger/heateroff/with/key/[INSERT YOUR API URL HERE]",
 
             Params = new Dictionary<string, string> {
                 { "param1", "value 1" },
@@ -163,7 +163,7 @@ public class MainScript : MonoBehaviour {
 
         currentRequest = new RequestHelper
         {
-            Uri = "https://maker.ifttt.com/trigger/ledon/with/key/b3bDyzBPeANkAT0iy3QU_Q",
+            Uri = "https://maker.ifttt.com/trigger/ledon/with/key/[INSERT YOUR API URL HERE]",
 
             Params = new Dictionary<string, string> {
                 { "param1", "value 1" },
@@ -198,7 +198,7 @@ public class MainScript : MonoBehaviour {
 
         currentRequest = new RequestHelper
         {
-            Uri = "https://maker.ifttt.com/trigger/ledoff/with/key/b3bDyzBPeANkAT0iy3QU_Q",
+            Uri = "https://maker.ifttt.com/trigger/ledoff/with/key/[INSERT YOUR API URL HERE]",
 
             Params = new Dictionary<string, string> {
                 { "param1", "value 1" },
@@ -233,7 +233,7 @@ public class MainScript : MonoBehaviour {
 
         currentRequest = new RequestHelper
         {
-            Uri = "https://maker.ifttt.com/trigger/ledgreen/with/key/b3bDyzBPeANkAT0iy3QU_Q",
+            Uri = "https://maker.ifttt.com/trigger/ledgreen/with/key/[INSERT YOUR API URL HERE]",
 
             Params = new Dictionary<string, string> {
                 { "param1", "value 1" },
